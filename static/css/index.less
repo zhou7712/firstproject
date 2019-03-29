@@ -1,0 +1,108 @@
+@charset "utf-8";
+@test_width: 10rem;
+body {
+  background-color: #fff;
+}
+.box {
+  width: @test_width;
+  height: @test_width;
+  border: 1px solid red;
+  .border;
+}
+.border {
+  border: 5px solid pink;
+}
+
+.box2{
+    .box;
+    .test_hunhe;
+}
+//混合 - 可带参数的  调用必须传参数，否则报错
+.border_02(@border_width){
+    border:@border_width solid yellow;
+}
+.test_hunhe{
+    .border_02(15px);
+}
+
+//混合 - 可带参数的,默认参数
+.border_03(@border_width:10px){
+    border:@border_width solid yellow;
+}
+.test_hunhe2{
+    .border_03();
+}
+
+
+// 匹配模式
+.sanjiao{
+    width: 0;
+    height: 0;
+    overflow: hidden;
+
+    border-width: 10px;
+    border-color: transparent transparent rgb(241, 10, 10) transparent;
+    border-style: dashed dashed solid dashed;
+}
+
+.triangle(top,@w:5px,@c:#ccc){
+    border-width: @w;
+    border-color: transparent transparent @c transparent;
+    border-style: dashed dashed solid dashed;
+}
+.triangle(bottom,@w:5px,@c:#ccc){
+    border-width: @w;
+    border-color: @c transparent transparent transparent;
+    border-style: solid dashed dashed dashed;
+}
+.triangle(left,@w:5px,@c:#ccc){
+    border-width: @w;
+    border-color: transparent @c transparent transparent;
+    border-style: dashed solid dashed dashed;
+}
+.triangle(right,@w:5px,@c:#ccc){
+    border-width: @w;
+    border-color: transparent transparent transparent @c;
+    border-style: dashed dashed dashed solid;
+}
+
+.triangle(@_,@w:5px,@c:#ccc){//不管选择left,right,top,bottom 都需要带上这个的
+    width: 0;
+    height: 0;
+    overflow: hidden;
+}
+
+.sanjiao2{
+    .triangle(bottom213,100px);
+}
+
+
+/*************************嵌套 start****************************************/
+.list{
+    width: 600px;
+    margin: 30px auto;
+    padding: 0;
+    list-style: none;
+
+    li{
+        height: 30px;
+        line-height: 30px;
+        background-color: pink;
+    }
+    a{
+        float: left;
+        &:hover{//& 代表上一层选择器
+            color: red;
+        }
+    }
+    span{
+        float: right;
+    }
+}
+/*************************嵌套 end****************************************/
+
+/*************************避免编译 start****************************************/
+.test_03{
+    width: ~'calc(300px - 20px)'
+}
+/*************************避免编译 end****************************************/
